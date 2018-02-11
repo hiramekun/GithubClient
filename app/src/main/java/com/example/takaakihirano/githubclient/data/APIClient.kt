@@ -19,7 +19,7 @@ import java.lang.reflect.Type
  * Created by takaakihirano on 2017/08/11.
  */
 
-private const val SERVER_ENDPOINT = ""
+private const val SERVER_ENDPOINT = "https://github.com"
 
 abstract class APIClient {
     protected companion object {
