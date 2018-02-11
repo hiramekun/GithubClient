@@ -1,4 +1,4 @@
-package com.example.takaakihirano.githubclient.Extensions
+package com.example.takaakihirano.githubclient.extensions
 
 import android.util.Log
 import com.example.takaakihirano.githubclient.BuildConfig
