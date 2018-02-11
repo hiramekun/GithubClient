@@ -1,4 +1,4 @@
-package com.example.takaakihirano.githubclient.data
+package com.example.takaakihirano.githubclient.data.net
 
 import com.example.takaakihirano.githubclient.BuildConfig
 import com.example.takaakihirano.githubclient.extensions.errorIfDebug
