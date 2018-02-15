@@ -12,4 +12,14 @@ object RealmService {
             Realm.getInstance(RealmConfiguration.Builder()
                     .deleteRealmIfMigrationNeeded()
                     .build())
+
+    fun <E> query(query: (Realm) -> E): E? {
+        var ret: E? = null
+        getInstanceForDevelopment().also {
+            ret = query(it)
+            it.close()
+        }
+
+        return ret
+    }
 }
