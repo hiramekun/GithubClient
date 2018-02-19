@@ -10,7 +10,7 @@ import retrofit2.http.POST
  * Created by takaakihirano on 2018/02/13.
  */
 
-object AuthAPIRepo : APIClient() {
+object AuthAPIDatastore: APIClient() {
     fun requestAuth(clientId: String,
                     clientSecret: String,
                     note: String,
