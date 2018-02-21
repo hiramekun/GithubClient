@@ -1,5 +1,6 @@
-package com.example.takaakihirano.githubclient.data.net
+package com.example.takaakihirano.githubclient.data.datastore
 
+import com.example.takaakihirano.githubclient.data.net.APIClient
 import com.example.takaakihirano.githubclient.data.repository.AuthInfoRepo
 import com.fasterxml.jackson.databind.JsonNode
 import io.reactivex.Single
