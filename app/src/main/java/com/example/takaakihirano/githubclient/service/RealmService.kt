@@ -1,5 +1,6 @@
 package com.example.takaakihirano.githubclient.service
 
+import io.reactivex.Completable
 import io.realm.Realm
 import io.realm.RealmConfiguration
 
@@ -22,4 +23,16 @@ object RealmService {
 
         return ret
     }
+
+    fun executeTransactionAsync(transaction: Realm.Transaction): Completable {
+        return Completable.create { e ->
+            val realm = getInstanceForDevelopment()
+            realm.executeTransactionAsync(transaction,
+                    Realm.Transaction.OnSuccess {
+                        realm.close()
+                        e.onComplete()
+                    })
+        }
+    }
+
 }
