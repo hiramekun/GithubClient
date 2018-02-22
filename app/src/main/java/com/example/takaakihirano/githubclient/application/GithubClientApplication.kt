@@ -16,8 +16,8 @@ class GithubClientApplication : Application() {
         // init realm
         Realm.init(this)
 
-        // saveToken your github info
-        AuthInfoRealmDatastore.save(
+        // setToken your github info
+        AuthInfoRealmDatastore.update(
                 AuthInfo(githubId = getString(R.string.github_id),
                         githubSecret = getString(R.string.github_secret))
         )

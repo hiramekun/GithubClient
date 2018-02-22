@@ -11,13 +11,13 @@ import io.realm.Realm
  */
 
 object AuthInfoRealmDatastore {
-    fun saveToken(token: String): Completable {
+    fun setToken(token: String): Completable {
         return RealmService.executeTransactionAsync(Realm.Transaction {
             it.where(AuthInfoEntity::class.java).findFirst()!!.accessToken = token
         })
     }
 
-    fun save(authInfo: AuthInfo): Completable {
+    fun update(authInfo: AuthInfo): Completable {
         return RealmService.executeTransactionAsync(Realm.Transaction {
             val authInfoEntity = AuthInfoEntity(githubId = authInfo.githubId, githubSecret = authInfo.githubSecret, accessToken = authInfo.accessToken)
             it.copyToRealmOrUpdate(authInfoEntity)
