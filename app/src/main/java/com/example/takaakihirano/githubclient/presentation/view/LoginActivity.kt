@@ -9,12 +9,11 @@ import android.support.v7.app.AppCompatActivity
 import android.text.TextUtils
 import android.view.View
 import android.view.inputmethod.EditorInfo
-import android.widget.TextView
+import android.widget.*
 import com.example.takaakihirano.githubclient.R
 import com.example.takaakihirano.githubclient.extensions.toast
 import com.example.takaakihirano.githubclient.presentation.navigation.Navigator
 import com.example.takaakihirano.githubclient.presentation.presenter.LoginPresenter
-import kotlinx.android.synthetic.main.activity_login.*
 
 /**
  * A login screen that offers login via email/password.
@@ -26,6 +25,11 @@ class LoginActivity : AppCompatActivity(), LoginView {
     }
 
     private val presenter = LoginPresenter()
+    private val pwEditText by lazy { findViewById<EditText>(R.id.password_edit_text) }
+    private val signInButton by lazy { findViewById<Button>(R.id.email_sign_in_button) }
+    private val emailTextView by lazy { findViewById<AutoCompleteTextView>(R.id.email_text_view) }
+    private val loginForm by lazy { findViewById<ScrollView>(R.id.login_form) }
+    private val loginProgress by lazy { findViewById<ProgressBar>(R.id.login_progress) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,15 +59,14 @@ class LoginActivity : AppCompatActivity(), LoginView {
 
 
     override fun renderView() {
-        password_edit_text.setOnEditorActionListener(TextView.OnEditorActionListener { _, id, _ ->
+        pwEditText.setOnEditorActionListener({ _, id, _ ->
             if (id == EditorInfo.IME_ACTION_DONE || id == EditorInfo.IME_NULL) {
                 attemptLogin()
-                return@OnEditorActionListener true
             }
             false
         })
 
-        email_sign_in_button.setOnClickListener { attemptLogin() }
+        signInButton.setOnClickListener { attemptLogin() }
     }
 
     /**
@@ -73,31 +76,31 @@ class LoginActivity : AppCompatActivity(), LoginView {
      */
     override fun attemptLogin() {
         // Reset errors.
-        email_text_view.error = null
-        password_edit_text.error = null
+        emailTextView.error = null
+        pwEditText.error = null
 
         // Store values at the time of the login attempt.
-        val emailStr = email_text_view.text.toString()
-        val passwordStr = password_edit_text.text.toString()
+        val emailStr = emailTextView.text.toString()
+        val passwordStr = pwEditText.text.toString()
 
         var cancel = false
         var focusView: View? = null
 
         // Check for a valid password, if the user entered one.
         if (!TextUtils.isEmpty(passwordStr) && !isPasswordValid(passwordStr)) {
-            password_edit_text.error = getString(R.string.error_invalid_password)
-            focusView = password_edit_text
+            pwEditText.error = getString(R.string.error_invalid_password)
+            focusView = pwEditText
             cancel = true
         }
 
         // Check for a valid email address.
         if (TextUtils.isEmpty(emailStr)) {
-            email_text_view.error = getString(R.string.error_field_required)
-            focusView = email_text_view
+            emailTextView.error = getString(R.string.error_field_required)
+            focusView = emailTextView
             cancel = true
         } else if (!isEmailValid(emailStr)) {
-            email_text_view.error = getString(R.string.error_invalid_email)
-            focusView = email_text_view
+            emailTextView.error = getString(R.string.error_invalid_email)
+            focusView = emailTextView
             cancel = true
         }
 
@@ -131,18 +134,18 @@ class LoginActivity : AppCompatActivity(), LoginView {
         // the progress spinner.
         val shortAnimTime = resources.getInteger(android.R.integer.config_shortAnimTime).toLong()
 
-        login_form.visibility = if (show) View.GONE else View.VISIBLE
-        login_form.animate()
+        loginForm.visibility = if (show) View.GONE else View.VISIBLE
+        loginForm.animate()
                 .setDuration(shortAnimTime)
                 .alpha((if (show) 0 else 1).toFloat())
                 .setListener(object : AnimatorListenerAdapter() {
                     override fun onAnimationEnd(animation: Animator) {
-                        login_form.visibility = if (show) View.GONE else View.VISIBLE
+                        loginForm.visibility = if (show) View.GONE else View.VISIBLE
                     }
                 })
 
-        login_progress.visibility = if (show) View.VISIBLE else View.GONE
-        login_progress.animate()
+        loginProgress.visibility = if (show) View.VISIBLE else View.GONE
+        loginProgress.animate()
                 .setDuration(shortAnimTime)
                 .alpha((if (show) 1 else 0).toFloat())
                 .setListener(object : AnimatorListenerAdapter() {
