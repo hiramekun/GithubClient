@@ -34,8 +34,7 @@ class LoginActivity : AppCompatActivity(), LoginView {
         presenter.outRequest.subscribe({
             Navigator.navigateToMain(this)
         }) {
-            // todo: change here to japanese.
-            toast("failed to login")
+            toast(getString(R.string.failed_to_login))
         }
     }
 
