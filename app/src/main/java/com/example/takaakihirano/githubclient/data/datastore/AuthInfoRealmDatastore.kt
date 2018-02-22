@@ -3,7 +3,6 @@ package com.example.takaakihirano.githubclient.data.datastore
 import com.example.takaakihirano.githubclient.data.entity.AuthInfoEntity
 import com.example.takaakihirano.githubclient.presentation.model.AuthInfo
 import com.example.takaakihirano.githubclient.service.RealmService
-import com.fasterxml.jackson.databind.JsonNode
 import io.reactivex.Completable
 import io.realm.Realm
 
@@ -12,8 +11,10 @@ import io.realm.Realm
  */
 
 object AuthInfoRealmDatastore {
-    fun save(jsonNode: JsonNode): Completable {
-        TODO()
+    fun saveToken(token: String): Completable {
+        return RealmService.executeTransactionAsync(Realm.Transaction {
+            it.where(AuthInfoEntity::class.java).findFirst()!!.accessToken = token
+        })
     }
 
     fun save(authInfo: AuthInfo): Completable {

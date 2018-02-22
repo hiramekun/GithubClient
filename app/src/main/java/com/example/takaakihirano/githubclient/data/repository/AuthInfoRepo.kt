@@ -18,7 +18,7 @@ object AuthInfoRepo {
                 note: String = "",
                 scopes: List<String> = emptyList()): Completable {
         return AuthAPIDatastore.requestAuth(clientId, clientSecret, note, scopes).flatMapCompletable {
-            AuthInfoRealmDatastore.save(it)
+            AuthInfoRealmDatastore.saveToken(it.get("token")?.toString() ?: "")
         }
     }
 
