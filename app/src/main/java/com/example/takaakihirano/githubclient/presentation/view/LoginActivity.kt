@@ -11,6 +11,8 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import com.example.takaakihirano.githubclient.R
+import com.example.takaakihirano.githubclient.extensions.toast
+import com.example.takaakihirano.githubclient.presentation.navigation.Navigator
 import com.example.takaakihirano.githubclient.presentation.presenter.LoginPresenter
 import kotlinx.android.synthetic.main.activity_login.*
 
@@ -29,6 +31,12 @@ class LoginActivity : AppCompatActivity(), LoginView {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         presenter.initialize(this)
+        presenter.outRequest.subscribe({
+            Navigator.navigateToMain(this)
+        }) {
+            // todo: change here to japanese.
+            toast("failed to login")
+        }
     }
 
     override fun onResume() {
@@ -103,6 +111,7 @@ class LoginActivity : AppCompatActivity(), LoginView {
             // perform the user login attempt.
             showProgress(true)
             // todo: implement login or sign up
+            presenter.requestAuth(true)
         }
     }
 

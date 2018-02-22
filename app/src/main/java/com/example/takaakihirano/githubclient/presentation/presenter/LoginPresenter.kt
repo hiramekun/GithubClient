@@ -1,8 +1,7 @@
 package com.example.takaakihirano.githubclient.presentation.presenter
 
-import com.example.takaakihirano.githubclient.data.entity.UserEntity
+import com.example.takaakihirano.githubclient.data.repository.AuthInfoRepo
 import com.example.takaakihirano.githubclient.presentation.view.LoginView
-import io.reactivex.Single
 import io.reactivex.subjects.PublishSubject
 
 /**
@@ -10,12 +9,15 @@ import io.reactivex.subjects.PublishSubject
  */
 class LoginPresenter : Presenter {
 
-    private val inRequestUser = PublishSubject.create<UserEntity>()!!
-//    private val outUserEntity = inRequestUser.flatMapSingle {
-//    }
+    private val inRequestUser = PublishSubject.create<Boolean>()!!
+    val outRequest = inRequestUser.flatMapCompletable { AuthInfoRepo.request() }!!
 
     fun initialize(view: LoginView) {
         view.renderView()
+    }
+
+    fun requestAuth(isRequesting: Boolean) {
+        inRequestUser.onNext(isRequesting)
     }
 
     override fun resume() {
